@@ -1,0 +1,38 @@
+[
+  {
+    "id": "summary",
+    "text": "Arthur is a backend and data engineer with over 6 years of experience in software development. He has a proven track record contributing to scalable software systems and is focused on solving real-world problems through backend engineering, data pipelines, and API integration."
+  },
+  {
+    "id": "crane-cloud",
+    "text": "At Crane Cloud (Software Engineer, April 2024 - Present, Kampala, Uganda), Arthur enhanced test coverage significantly, leading to a 30% reduction in post-deployment regressions and improved overall code integrity. He also made substantial contributions to backend API services, facilitating integration with frontend components and improving system performance."
+  },
+  {
+    "id": "levelten",
+    "text": "At LevelTen Energy (Software Engineer, Oct 2021 - July 2023, Seattle, remote), Arthur automated data ingestion processes by integrating third-party APIs, Selenium web scrapers, and custom analytics imports using Google Cloud Functions and Apache Airflow, reducing data processing time by 30%. He implemented monitoring for data pipelines that enabled immediate failure alerts and cut issue resolution time by 40%. He also optimized a weather data updater service for a 25% performance increase and refactored an outdated queue worker to eliminate security vulnerabilities and reduce technical debt by 35%."
+  },
+  {
+    "id": "collabs",
+    "text": "At Collabs.io (Full-Stack Engineer, Dec 2020 - Jan 2022, New York, remote), Arthur contributed to API services and Stripe integration that enabled a successful MVP launch. He developed well-tested backend services and frontend components, implemented metrics services for user insights, and led end-to-end testing with Cypress to reduce regressions. This is his strongest full-stack, end-to-end ownership experience."
+  },
+  {
+    "id": "andela",
+    "text": "At Andela (Software Engineer, Oct 2017 - Sept 2020, Kampala, Uganda), Arthur improved an internal social events tool by integrating Slack and Google Calendar, increasing event participation by 25%. He also mentored junior developers, helping improve team productivity and collaboration."
+  },
+  {
+    "id": "usefyi",
+    "text": "At USEFYI (Backend Engineer, Sep 2018 - Jan 2020, San Francisco, remote), Arthur improved user data access by integrating APIs from Airtable, Microsoft 365, Google, and Confluence. He refined data ingestion processes to reduce failures and improve system stability, and was instrumental in building an email client that notified users of content updates."
+  },
+  {
+    "id": "skills",
+    "text": "Arthur's core skills include Python, JavaScript/TypeScript, Flask, FastAPI, Django, Node.js, React, and NestJS. On infrastructure: AWS (EC2, S3, Lambda, SNS, RDS), GCP (App Engine, Cloud Functions, Compute Engine), Docker, and Kubernetes. Databases: PostgreSQL, MySQL, DynamoDB, Redis. Tooling: GitHub, CI/CD (CircleCI, GitLab CI), Apache Airflow, Celery, and testing with Cypress and pytest."
+  },
+  {
+    "id": "rugby-project",
+    "text": "Arthur built a fantasy rugby web application as a personal project, with a Flask and PostgreSQL backend that he built solo. He collaborated with mobile and web developers on the broader product."
+  },
+  {
+    "id": "focus",
+    "text": "Arthur is primarily focused on backend and data engineering work, especially API integration and data pipelines. He is also expanding into AI-powered products and agent/automation systems, and is based in Kampala, Uganda, working remotely with global companies."
+  }
+]

@@ -1,0 +1,119 @@
+<!--
+  Portfolio chat widget.
+  Copy this block into your GitHub Pages HTML (e.g. right before </body>).
+  Update API_URL to wherever you deploy app.py (Render, Fly.io, etc).
+-->
+
+<div id="portfolio-chat">
+  <button id="chat-toggle">💬 Ask about Arthur</button>
+  <div id="chat-box" style="display:none;">
+    <div id="chat-messages"></div>
+    <form id="chat-form">
+      <input id="chat-input" type="text" placeholder="e.g. What backend work has Arthur done?" autocomplete="off" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  #portfolio-chat {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: system-ui, sans-serif;
+    z-index: 1000;
+  }
+  #chat-toggle {
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  #chat-box {
+    width: 320px;
+    max-height: 420px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  #chat-messages {
+    padding: 12px;
+    overflow-y: auto;
+    flex: 1;
+    max-height: 320px;
+  }
+  .msg { margin-bottom: 10px; font-size: 14px; line-height: 1.4; }
+  .msg.user { text-align: right; color: #1a1a1a; }
+  .msg.bot { text-align: left; color: #444; }
+  #chat-form {
+    display: flex;
+    border-top: 1px solid #eee;
+  }
+  #chat-input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    outline: none;
+  }
+  #chat-form button {
+    border: none;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 0 14px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  const API_URL = "https://YOUR-DEPLOYED-API-URL.com/ask"; // <-- update this
+
+  const toggle = document.getElementById("chat-toggle");
+  const box = document.getElementById("chat-box");
+  const messages = document.getElementById("chat-messages");
+  const form = document.getElementById("chat-form");
+  const input = document.getElementById("chat-input");
+
+  toggle.addEventListener("click", () => {
+    box.style.display = box.style.display === "none" ? "flex" : "none";
+  });
+
+  function addMessage(text, sender) {
+    const div = document.createElement("div");
+    div.className = `msg ${sender}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    addMessage(question, "user");
+    input.value = "";
+    addMessage("Thinking...", "bot");
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+      const data = await res.json();
+      messages.lastChild.remove(); // remove "Thinking..."
+      addMessage(data.answer || "Sorry, something went wrong.", "bot");
+    } catch (err) {
+      messages.lastChild.remove();
+      addMessage("Sorry, I couldn't reach the server.", "bot");
+    }
+  });
+</script>
