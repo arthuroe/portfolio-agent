@@ -26,9 +26,11 @@ voyage_client = voyageai.Client(api_key=os.environ["VOYAGE_API_KEY"])
 EMBEDDING_DIM = 512  # voyage-3-lite output dimension
 
 
-def get_embedding(text: str) -> list[float]:
-    result = voyage_client.embed([text], model="voyage-3-lite", input_type="document")
-    return result.embeddings[0]
+def get_embeddings(texts: list[str]) -> list[list[float]]:
+    """Embeds all texts in a single API call to stay well under the free-tier
+    rate limit (3 requests/minute without a payment method on file)."""
+    result = voyage_client.embed(texts, model="voyage-3-lite", input_type="document")
+    return result.embeddings
 
 
 def setup_table(conn):
@@ -45,9 +47,9 @@ def setup_table(conn):
 
 
 def load_content(conn, chunks: list[dict]):
+    embeddings = get_embeddings([chunk["text"] for chunk in chunks])
     with conn.cursor() as cur:
-        for chunk in chunks:
-            embedding = get_embedding(chunk["text"])
+        for chunk, embedding in zip(chunks, embeddings):
             cur.execute(
                 """
                 INSERT INTO content_chunks (id, text, embedding)
