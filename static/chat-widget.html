@@ -6,10 +6,15 @@
 
 <div id="portfolio-chat">
   <button id="chat-toggle">💬 Ask about Arthur</button>
-  <div id="chat-box" style="display:none;">
+  <div id="chat-box" style="display: none">
     <div id="chat-messages"></div>
     <form id="chat-form">
-      <input id="chat-input" type="text" placeholder="e.g. What backend work has Arthur done?" autocomplete="off" />
+      <input
+        id="chat-input"
+        type="text"
+        placeholder="e.g. What backend work has Arthur done?"
+        autocomplete="off"
+      />
       <button type="submit">Send</button>
     </form>
   </div>
@@ -38,7 +43,7 @@
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     margin-top: 8px;
     display: flex;
     flex-direction: column;
@@ -49,9 +54,19 @@
     flex: 1;
     max-height: 320px;
   }
-  .msg { margin-bottom: 10px; font-size: 14px; line-height: 1.4; }
-  .msg.user { text-align: right; color: #1a1a1a; }
-  .msg.bot { text-align: left; color: #444; }
+  .msg {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .msg.user {
+    text-align: right;
+    color: #1a1a1a;
+  }
+  .msg.bot {
+    text-align: left;
+    color: #444;
+  }
   #chat-form {
     display: flex;
     border-top: 1px solid #eee;
@@ -73,7 +88,7 @@
 </style>
 
 <script>
-  const API_URL = "https://YOUR-DEPLOYED-API-URL.com/ask"; // <-- update this
+  const API_URL = "http://127.0.0.1:8000/ask"; // <-- update this
 
   const toggle = document.getElementById("chat-toggle");
   const box = document.getElementById("chat-box");

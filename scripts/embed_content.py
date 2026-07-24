@@ -11,12 +11,10 @@ import os
 import json
 import psycopg2
 from dotenv import load_dotenv
-import anthropic
 
 load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
 
 # NOTE: Anthropic does not currently offer a native embeddings endpoint.
 # This script uses Voyage AI (Anthropic's recommended embeddings partner).
@@ -25,7 +23,7 @@ import voyageai
 
 voyage_client = voyageai.Client(api_key=os.environ["VOYAGE_API_KEY"])
 
-EMBEDDING_DIM = 1024  # voyage-3-lite output dimension
+EMBEDDING_DIM = 512  # voyage-3-lite output dimension
 
 
 def get_embedding(text: str) -> list[float]:

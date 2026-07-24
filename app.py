@@ -5,9 +5,12 @@ Flow:
   1. User sends a question to POST /ask
   2. We embed the question (Voyage AI)
   3. We find the most similar chunks in Postgres/pgvector
-  4. We hand those chunks + the question to Claude, with a system prompt
-     that restricts it to answering only from the provided context
+  4. We hand those chunks + the question to a Groq-hosted model, with a
+     system prompt that restricts it to answering only from the provided context
   5. We return the answer
+
+Groq's free tier (console.groq.com) needs no credit card, so this whole
+project can run at $0.
 
 Run locally:
     uvicorn app:app --reload --port 8000
@@ -19,14 +22,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
 from dotenv import load_dotenv
-import anthropic
+from groq import Groq
 import voyageai
 
 load_dotenv()
 
 DATABASE_URL = os.environ["DATABASE_URL"]
-ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 VOYAGE_API_KEY = os.environ["VOYAGE_API_KEY"]
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 
 # Comma-separated list of origins allowed to call this API, e.g.
 # "https://yourname.github.io,http://localhost:5500"
@@ -44,7 +48,7 @@ app.add_middleware(
 )
 
 voyage_client = voyageai.Client(api_key=VOYAGE_API_KEY)
-anthropic_client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+groq_client = Groq(api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """You are a portfolio assistant answering questions about Arthur, \
 a backend and data engineer, on behalf of visitors to his portfolio site.
@@ -110,15 +114,15 @@ def ask(req: AskRequest):
     context = "\n\n".join(chunks) if chunks else "No relevant context found."
 
     try:
-        response = anthropic_client.messages.create(
-            model="claude-sonnet-4-6",
+        response = groq_client.chat.completions.create(
+            model=GROQ_MODEL,
             max_tokens=300,
-            system=SYSTEM_PROMPT.format(context=context),
-            messages=[{"role": "user", "content": question}],
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT.format(context=context)},
+                {"role": "user", "content": question},
+            ],
         )
-        answer = "".join(
-            block.text for block in response.content if block.type == "text"
-        )
+        answer = response.choices[0].message.content
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Generation failed: {e}")
 
